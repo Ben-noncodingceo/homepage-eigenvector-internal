@@ -29,5 +29,15 @@
     <meta property="og:description" content="{{ meta_description }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ "/assets/styles.css" | relative_url }}" rel="stylesheet" type="text/css">
+    <script>
+      window.i18n = {
+        en: {{ site.data.i18n.en | jsonify }},
+        'zh-CN': {{ site.data.i18n['zh-CN'] | jsonify }},
+        'zh-TW': {{ site.data.i18n['zh-TW'] | jsonify }}
+      };
+    </script>
   </head>
   <body class="bg-white min-height-full" {% if site.style == 'dark' %}style="background-color: #2f363d !important"{% endif %}>
+    <div style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
+      {% include language-switcher.html %}
+    </div>

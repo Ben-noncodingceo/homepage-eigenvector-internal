@@ -1,0 +1,99 @@
+<div class="language-switcher">
+  <select id="language-select">
+    <option value="en">English</option>
+    <option value="zh-CN">简体中文</option>
+    <option value="zh-TW">繁體中文</option>
+  </select>
+</div>
+
+<script>
+(function() {
+  // 获取当前语言，优先从localStorage，其次从浏览器语言
+  function getCurrentLanguage() {
+    const stored = localStorage.getItem('preferred-language');
+    if (stored) return stored;
+    
+    const browserLang = navigator.language || navigator.userLanguage;
+    if (browserLang.startsWith('zh')) {
+      return browserLang.includes('TW') || browserLang.includes('HK') || browserLang.includes('MO') ? 'zh-TW' : 'zh-CN';
+    }
+    return 'en';
+  }
+
+  // 设置语言
+  function setLanguage(lang) {
+    localStorage.setItem('preferred-language', lang);
+    document.documentElement.lang = lang;
+    
+    // 更新所有带有data-i18n属性的元素
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      const key = el.getAttribute('data-i18n');
+      const translations = window.i18n[lang];
+      if (translations && translations[key]) {
+        el.textContent = translations[key];
+      }
+    });
+    
+    // 更新所有带有data-i18n-placeholder属性的元素
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+      const key = el.getAttribute('data-i18n-placeholder');
+      const translations = window.i18n[lang];
+      if (translations && translations[key]) {
+        el.setAttribute('placeholder', translations[key]);
+      }
+    });
+    
+    // 更新所有带有data-i18n-title属性的元素
+    document.querySelectorAll('[data-i18n-title]').forEach(function(el) {
+      const key = el.getAttribute('data-i18n-title');
+      const translations = window.i18n[lang];
+      if (translations && translations[key]) {
+        // 检查是否有data-service-name属性（用于动态组合文本）
+        const serviceName = el.getAttribute('data-service-name');
+        if (serviceName) {
+          el.setAttribute('title', translations[key] + ' ' + serviceName);
+        } else {
+          el.setAttribute('title', translations[key]);
+        }
+      }
+    });
+    
+    // 更新所有带有data-i18n-aria-label属性的元素
+    document.querySelectorAll('[data-i18n-aria-label]').forEach(function(el) {
+      const key = el.getAttribute('data-i18n-aria-label');
+      const translations = window.i18n[lang];
+      if (translations && translations[key]) {
+        el.setAttribute('aria-label', translations[key]);
+      }
+    });
+  }
+
+  // 初始化
+  const currentLang = getCurrentLanguage();
+  document.documentElement.lang = currentLang;
+  
+  // 等待DOM加载完成后设置语言选择器
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      const select = document.getElementById('language-select');
+      if (select) {
+        select.value = currentLang;
+        select.addEventListener('change', function() {
+          setLanguage(this.value);
+        });
+        setLanguage(currentLang);
+      }
+    });
+  } else {
+    const select = document.getElementById('language-select');
+    if (select) {
+      select.value = currentLang;
+      select.addEventListener('change', function() {
+        setLanguage(this.value);
+      });
+      setLanguage(currentLang);
+    }
+  }
+})();
+</script>
+
