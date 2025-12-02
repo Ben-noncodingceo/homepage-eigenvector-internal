@@ -28,6 +28,7 @@ jobs:
         run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
+          PAGES_REPO_NWO: Ben-noncodingceo/homepage-eigenvector-internal
       
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1

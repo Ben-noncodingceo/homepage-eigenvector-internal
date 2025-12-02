@@ -1,6 +1,8 @@
 layout: sidebar
 style: light
 
+repository: Ben-noncodingceo/homepage-eigenvector-internal
+
 plugins:
   - jekyll-octicons
   - jekyll-github-metadata
