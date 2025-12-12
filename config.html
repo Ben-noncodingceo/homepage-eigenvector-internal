@@ -124,8 +124,18 @@ layout: null
     </div>
 
     <script>
+        // Data from Jekyll
+        const serverCustomProjects = {{ site.data.custom_projects | jsonify }};
+        const githubProjects = {{ site.github.public_repositories | jsonify }};
+
         // Store
-        let projects = JSON.parse(localStorage.getItem('custom_projects') || '[]');
+        let projects = JSON.parse(localStorage.getItem('custom_projects') || 'null');
+        
+        // Initialize from server data if local is empty (first visit)
+        if (!projects) {
+            projects = serverCustomProjects || [];
+            localStorage.setItem('custom_projects', JSON.stringify(projects));
+        }
         
         // DOM Elements
         const form = document.getElementById('projectForm');
@@ -136,15 +146,44 @@ layout: null
         // Render List & Selector
         function render() {
             // Update Selector
-            projectSelector.innerHTML = '<option value="-1">+ Create New Project</option>';
-            projects.forEach((p, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = `Edit: ${p.name || 'Untitled'}`;
-                projectSelector.appendChild(option);
-            });
-            // Sync selector value
-            projectSelector.value = editIndexInput.value;
+            projectSelector.innerHTML = '<option value="new">+ Create New Project</option>';
+            
+            // Group: Custom Projects
+            if (projects.length > 0) {
+                const group = document.createElement('optgroup');
+                group.label = "Custom Projects (Editable)";
+                projects.forEach((p, index) => {
+                    const option = document.createElement('option');
+                    option.value = `custom-${index}`;
+                    option.textContent = p.name || 'Untitled';
+                    group.appendChild(option);
+                });
+                projectSelector.appendChild(group);
+            }
+
+            // Group: GitHub Projects
+            if (githubProjects && githubProjects.length > 0) {
+                const group = document.createElement('optgroup');
+                group.label = "Import from GitHub";
+                githubProjects.forEach((p, index) => {
+                    // Check if already exists in custom projects (by name) to maybe mark it?
+                    // For now just list them
+                    const option = document.createElement('option');
+                    option.value = `github-${index}`;
+                    option.textContent = p.name;
+                    group.appendChild(option);
+                });
+                projectSelector.appendChild(group);
+            }
+
+            // Sync selector value (handle complex values)
+            // If editIndex is -1, it's "new". If >= 0, it's "custom-index".
+            const currentIndex = parseInt(editIndexInput.value);
+            if (currentIndex === -1) {
+                projectSelector.value = "new";
+            } else {
+                projectSelector.value = `custom-${currentIndex}`;
+            }
 
             // Render Right List (Keep as preview)
             list.innerHTML = '';
@@ -157,7 +196,7 @@ layout: null
                 const div = document.createElement('div');
                 div.className = 'bg-slate-800 p-4 rounded-lg border border-slate-700 flex justify-between items-start';
                 div.innerHTML = `
-                    <div class="cursor-pointer flex-grow" onclick="selectProject(${index})">
+                    <div class="cursor-pointer flex-grow" onclick="selectProject('custom-${index}')">
                         <h3 class="font-bold text-white">${p.name}</h3>
                         <p class="text-sm text-secondary line-clamp-1">${p.description || ''}</p>
                         <div class="flex gap-2 mt-2">
@@ -176,11 +215,15 @@ layout: null
 
         // Selector Change Event
         projectSelector.addEventListener('change', (e) => {
-            const index = parseInt(e.target.value);
-            if (index === -1) {
+            const value = e.target.value;
+            if (value === 'new') {
                 resetForm();
-            } else {
-                fillForm(index);
+            } else if (value.startsWith('custom-')) {
+                const index = parseInt(value.split('-')[1]);
+                fillForm(projects[index], index);
+            } else if (value.startsWith('github-')) {
+                const index = parseInt(value.split('-')[1]);
+                fillFormFromGithub(githubProjects[index]);
             }
         });
 
@@ -201,18 +244,21 @@ layout: null
                 projects[index] = project;
             } else {
                 projects.push(project);
-                // Switch to edit mode for the new project immediately? Or stay in create mode?
-                // Let's reset to create mode to allow adding another one easily
             }
 
             save();
+            // Force re-render and select the new/edited item
+            // If we added new, it's at length-1. If edited, it's at index.
+            const newIndex = index >= 0 ? index : projects.length - 1;
             render();
-            if (index === -1) resetForm(); // Clear only if we were adding new
+            
+            // Set form to edit mode for the item we just saved
+            editIndexInput.value = newIndex;
+            projectSelector.value = `custom-${newIndex}`;
         });
 
         // Fill Form Helper
-        function fillForm(index) {
-            const p = projects[index];
+        function fillForm(p, index) {
             if (!p) return;
             document.getElementById('name').value = p.name || '';
             document.getElementById('description').value = p.description || '';
@@ -220,13 +266,32 @@ layout: null
             document.getElementById('github_url').value = p.html_url || '';
             document.getElementById('demo_url').value = p.homepage || '';
             document.getElementById('stars').value = p.stargazers_count || 0;
-            editIndexInput.value = index;
-            projectSelector.value = index;
+            
+            editIndexInput.value = index; // Set to index to enable "Update" mode
+        }
+
+        function fillFormFromGithub(p) {
+            if (!p) return;
+            document.getElementById('name').value = p.name || '';
+            document.getElementById('description').value = p.description || '';
+            // Topics might be in p.topics array
+            document.getElementById('tags').value = (p.topics || []).join(', ');
+            document.getElementById('github_url').value = p.html_url || '';
+            document.getElementById('demo_url').value = p.homepage || '';
+            document.getElementById('stars').value = p.stargazers_count || 0;
+            
+            editIndexInput.value = -1; // -1 means "Save as New"
         }
 
         // Edit (called from list click)
-        window.selectProject = (index) => {
-            fillForm(index);
+        window.selectProject = (value) => {
+            // Value is passed as 'custom-X' from the onclick handler in render()
+            // We need to match the selector logic
+            if (typeof value === 'string' && value.startsWith('custom-')) {
+                 const index = parseInt(value.split('-')[1]);
+                 fillForm(projects[index], index);
+                 projectSelector.value = value;
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
         // Backwards compatibility for the old edit button if I missed removing it from render
