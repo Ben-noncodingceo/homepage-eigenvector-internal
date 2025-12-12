@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "name": "asid-base-chem-sim 酸碱滴定动画模拟",
+    "description": "酸碱滴定的模拟，难点在于几个稳定点是否能精确计算，曲线是否是平滑的。 项目难度，简单。 工作量小于半小时。 ",
+    "tags": [],
+    "html_url": "https://github.com/Ben-noncodingceo/asid-base-chem-sim",
+    "homepage": "https://asidbasechemsim.playphysics.net/",
+    "stargazers_count": 0
+  },
+  {
+    "name": "IBO-question-maker 生物竞赛出题器 稳定版",
+    "description": "IBO problem maker生物竞赛出题器 稳定版，有良好的历史和搜索功能。 根据学科和二级标签进行文献类文字出题。",
+    "tags": [],
+    "html_url": "https://github.com/Ben-noncodingceo/IBO-question-maker",
+    "homepage": "https://biology-question-maker.playphysics.net/",
+    "stargazers_count": 0
+  },
+  {
+    "name": "chemistry-3d-models 三维展示化学分子模型",
+    "description": "chemistry-3d-models for molecules 三维展示化学分子模型，可以选择一些常见分子，改变视角",
+    "tags": [],
+    "html_url": "https://github.com/Ben-noncodingceo/chemistry-3d-models",
+    "homepage": "https://ben-noncodingceo.github.io/chemistry-3d-models/",
+    "stargazers_count": 0
+  },
+  {
+    "name": "OracleNexus 八字星座命理分析",
+    "description": "输入姓名、出生日期、时间、出生地点，可以进行八字、星座命理测算，支持 deepseek 加成",
+    "tags": [],
+    "html_url": "https://github.com/Ben-noncodingceo/OracleNexusHR",
+    "homepage": "https://oracle-nexus-hr.vercel.app",
+    "stargazers_count": 0
+  },
+  {
+    "name": "文章分析器",
+    "description": "自动分析文章的关键字、阅读量等信息。 目前确定支持小红书、微信公众号，输入文章 url 即可",
+    "tags": [],
+    "html_url": "https://github.com/Ben-noncodingceo/test-teaching",
+    "homepage": "https://article-auto-analyzer.playphysics.net/",
+    "stargazers_count": 0
+  },
+  {
+    "name": "Interactive-periodic-table 互动化学元素周期表",
+    "description": "Interactive-periodic-table互动化学元素周期表，可以根据颜色显示电负性等性质。 可以选择具体的元素，来看一些数据",
+    "tags": [],
+    "html_url": "https://github.com/Ben-noncodingceo/Interactive-periodic-table",
+    "homepage": "https://5851697a.interactive-periodic-table-ar0.pages.dev/",
+    "stargazers_count": 0
+  },
+  {
+    "name": "electroncloudshape 电子云和波函数展示",
+    "description": "3D/2D model for electron cloud 电子云粒子模式展示、波函数的具体函数形式也有展示。",
+    "tags": [],
+    "html_url": "https://github.com/Ben-noncodingceo/electroncloudshape",
+    "homepage": "https://electroncloudshape.playphysics.net/",
+    "stargazers_count": 0
+  },
+  {
+    "name": "smart-vc-bot 智能 AI 投资 BP分析器",
+    "description": "smart vc bot 智能通过多维度对一个公司、行业进行分析，判断 BP 的投资价值",
+    "tags": [],
+    "html_url": "https://github.com/Ben-noncodingceo/smart-vc-bot",
+    "homepage": "https://smart-vc-bot.pages.dev/",
+    "stargazers_count": 0
+  },
+  {
+    "name": "legal-auto-review 合同风险智能检查器",
+    "description": "legal-auto-review智能检测合同风险，并且给出改进建议",
+    "tags": [],
+    "html_url": "https://github.com/Ben-noncodingceo/legal-auto-review",
+    "homepage": "https://legal-auto-review.pages.dev/",
+    "stargazers_count": 0
+  }
+]
