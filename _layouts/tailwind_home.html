@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site.title | default: site.github.owner.name }}</title>
+    <meta name="description" content="{{ site.description | default: site.github.owner.bio }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0f172a',
+                        accent: '#38bdf8', // Sky blue
+                        secondary: '#94a3b8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Custom scrollbar for Webkit */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-dark text-slate-300 antialiased selection:bg-accent selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 start-0 border-b border-slate-800 bg-dark/80 backdrop-blur-md">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <span class="self-center text-2xl font-bold whitespace-nowrap text-white">
+                    &lt;{{ site.github.owner.name | default: site.title }} /&gt;
+                </span>
+            </a>
+            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-slate-700 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+                    <li>
+                        <a href="#" class="block py-2 px-3 text-white bg-accent rounded md:bg-transparent md:text-accent md:p-0" aria-current="page">Home</a>
+                    </li>
+                    <li>
+                        <a href="#projects" class="block py-2 px-3 text-white rounded hover:bg-slate-800 md:hover:bg-transparent md:border-0 md:hover:text-accent md:p-0">Projects</a>
+                    </li>
+                    {% if site.social_media %}
+                    <li>
+                        <a href="#contact" class="block py-2 px-3 text-white rounded hover:bg-slate-800 md:hover:bg-transparent md:border-0 md:hover:text-accent md:p-0">Contact</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center pt-16">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
+            {% if site.github.owner.avatar_url %}
+            <div class="flex justify-center mb-8">
+                <img class="w-32 h-32 rounded-full border-4 border-slate-700 shadow-lg" src="{{ site.github.owner.avatar_url }}" alt="{{ site.github.owner.name }}">
+            </div>
+            {% endif %}
+            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
+                Hello, I am <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-500">{{ site.github.owner.name | default: "Developer" }}</span>
+            </h1>
+            <p class="mb-8 text-lg font-normal text-secondary lg:text-xl sm:px-16 xl:px-48">
+                {{ site.github.owner.bio | default: "Passionate about building high-performance Web applications and open source software." }}
+            </p>
+            <div class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+                <a href="#projects" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-dark rounded-lg bg-accent hover:bg-sky-400 focus:ring-4 focus:ring-sky-300 dark:focus:ring-sky-900 transition-all">
+                    View Projects
+                    <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </a>
+                <a href="{{ site.github.owner.html_url }}" target="_blank" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg border border-slate-600 hover:bg-slate-800 focus:ring-4 focus:ring-slate-700 transition-all">
+                    <svg class="mr-2 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                    GitHub Profile
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-slate-900">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <div class="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
+                <h2 class="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-white">Project Gallery</h2>
+                <p class="font-light text-secondary sm:text-xl">
+                    Some of the open source projects I've built or contributed to.
+                </p>
+            </div>
+            
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {% if site.data.custom_projects %}
+                    {% for project in site.data.custom_projects %}
+                    <article class="p-6 bg-dark rounded-xl border border-slate-700 shadow-md hover:shadow-lg hover:border-accent transition-all duration-300 flex flex-col h-full">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-slate-800 text-accent text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded border border-slate-700">
+                                <svg class="mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+                                Project
+                            </span>
+                            <span class="text-sm text-secondary flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                {{ project.stargazers_count | default: 0 }}
+                            </span>
+                        </div>
+                        <h2 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                            <a href="{{ project.html_url }}" target="_blank" class="hover:text-accent">{{ project.name }}</a>
+                        </h2>
+                        <p class="mb-4 font-light text-secondary line-clamp-3 flex-grow">
+                            {{ project.description | default: "No description provided." }}
+                        </p>
+                        
+                        {% if project.tags %}
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            {% for tag in project.tags limit: 4 %}
+                            <span class="bg-slate-800 text-slate-300 text-xs font-medium px-2 py-0.5 rounded">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-800">
+                            {% if project.html_url %}
+                            <a href="{{ project.html_url }}" target="_blank" class="inline-flex items-center font-medium text-sm text-white hover:text-accent">
+                                <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                                Code
+                            </a>
+                            {% else %}
+                            <span></span>
+                            {% endif %}
+                            
+                            {% if project.homepage %}
+                            <a href="{{ project.homepage }}" target="_blank" class="inline-flex items-center font-medium text-sm text-dark bg-white px-3 py-1.5 rounded hover:bg-slate-200 transition-colors">
+                                Live Demo
+                                <svg class="ml-2 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path></svg>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </article>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Container for LocalStorage Projects -->
+                <div id="local-projects-container" class="contents"></div>
+
+                {% assign limit = site.projects.limit | default: 9 %}
+                {% if site.projects.sort_by == 'stars' %}
+                    {% assign sort_order = 'stargazers_count', 'last' %}
+                {% else %}
+                    {% assign sort_order = 'pushed_at' %}
+                {% endif %}
+
+                {% if site.projects.exclude.archived and site.projects.exclude.forks %}
+                    {% assign filtered_repos = site.github.public_repositories | where:'archived', false | where:'fork', false | sort: sort_order | reverse %}
+                {% elsif site.projects.exclude.archived %}
+                    {% assign filtered_repos = site.github.public_repositories | where:'archived', false | sort: sort_order | reverse %}
+                {% elsif site.projects.exclude.forks %}
+                    {% assign filtered_repos = site.github.public_repositories | where:'fork', false | sort: sort_order | reverse %}
+                {% else %}
+                    {% assign filtered_repos = site.github.public_repositories | sort: sort_order | reverse %}
+                {% endif %}
+
+                {% for repo in filtered_repos limit: limit %}
+                {% unless site.projects.exclude.projects contains repo.name %}
+                <!-- Card -->
+                <article class="p-6 bg-dark rounded-xl border border-slate-700 shadow-md hover:shadow-lg hover:border-accent transition-all duration-300 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="bg-slate-800 text-accent text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded border border-slate-700">
+                            <svg class="mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+                            Project
+                        </span>
+                        <span class="text-sm text-secondary flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                            {{ repo.stargazers_count }}
+                        </span>
+                    </div>
+                    <h2 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                        <a href="{{ repo.html_url }}" target="_blank" class="hover:text-accent">{{ repo.name }}</a>
+                    </h2>
+                    <p class="mb-4 font-light text-secondary line-clamp-3 flex-grow">
+                        {{ repo.description | default: "No description provided." }}
+                    </p>
+                    
+                    {% if repo.topics %}
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        {% for topic in repo.topics limit: 4 %}
+                        <span class="bg-slate-800 text-slate-300 text-xs font-medium px-2 py-0.5 rounded">{{ topic }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-800">
+                        <a href="{{ repo.html_url }}" target="_blank" class="inline-flex items-center font-medium text-sm text-white hover:text-accent">
+                            <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                            Code
+                        </a>
+                        {% if repo.homepage %}
+                        <a href="{{ repo.homepage }}" target="_blank" class="inline-flex items-center font-medium text-sm text-dark bg-white px-3 py-1.5 rounded hover:bg-slate-200 transition-colors">
+                            Live Demo
+                            <svg class="ml-2 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path></svg>
+                        </a>
+                        {% endif %}
+                    </div>
+                </article>
+                {% endunless %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="p-4 bg-dark md:p-8 lg:p-10 border-t border-slate-800">
+        <div class="mx-auto max-w-screen-xl text-center">
+            <a href="#" class="flex justify-center items-center text-2xl font-semibold text-white">
+                &lt;{{ site.github.owner.name | default: site.title }} /&gt;
+            </a>
+            <p class="my-6 text-secondary">
+                Connect with me on social media or check out my repositories on GitHub.
+            </p>
+            <ul class="flex flex-wrap justify-center items-center mb-6 text-white">
+                <li>
+                    <a href="{{ site.github.owner.html_url }}" target="_blank" class="mr-4 hover:text-accent md:mr-6 fill-current">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">GitHub</span>
+                    </a>
+                </li>
+                {% if site.social_media %}
+                {% for account in site.social_media %}
+                  {% assign service_shortname = account[0] %}
+                  {% assign service = site.data.social_media[service_shortname] %}
+                  {% if service %}
+                    <li>
+                        <a href="{{ service.profile_url_prefix }}{{ account[1] }}" target="_blank" class="mr-4 hover:text-accent md:mr-6 fill-current">
+                            <!-- We render the SVG but ensure it takes the current text color -->
+                            <div class="w-6 h-6 [&>svg]:!fill-current [&>svg]:w-full [&>svg]:h-full">
+                                {{ service.icon_svg }}
+                            </div>
+                            <span class="sr-only">{{ service.name }}</span>
+                        </a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                {% endif %}
+            </ul>
+            <span class="text-sm text-secondary sm:text-center">© {{ 'now' | date: "%Y" }} <a href="#" class="hover:underline">{{ site.github.owner.name }}</a>. All Rights Reserved.
+            </span>
+        </div>
+    </footer>
+
+    <!-- Configuration Button -->
+    <a href="/config" class="fixed bottom-6 right-6 p-3 bg-slate-800 text-white rounded-full shadow-lg border border-slate-700 hover:bg-slate-700 hover:text-accent transition-all z-50" title="Manage Projects">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+    </a>
+
+    <!-- LocalStorage Project Loader -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('local-projects-container');
+            const projects = JSON.parse(localStorage.getItem('custom_projects') || '[]');
+            
+            if (projects.length > 0 && container) {
+                projects.forEach(project => {
+                    const article = document.createElement('article');
+                    article.className = 'p-6 bg-dark rounded-xl border border-slate-700 shadow-md hover:shadow-lg hover:border-accent transition-all duration-300 flex flex-col h-full';
+                    
+                    const tagsHtml = project.tags ? `
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${project.tags.map(tag => `<span class="bg-slate-800 text-slate-300 text-xs font-medium px-2 py-0.5 rounded">${tag}</span>`).join('')}
+                        </div>
+                    ` : '';
+
+                    const demoBtn = project.homepage ? `
+                        <a href="${project.homepage}" target="_blank" class="inline-flex items-center font-medium text-sm text-dark bg-white px-3 py-1.5 rounded hover:bg-slate-200 transition-colors">
+                            Live Demo
+                            <svg class="ml-2 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path></svg>
+                        </a>
+                    ` : '';
+
+                    const codeBtn = project.html_url ? `
+                        <a href="${project.html_url}" target="_blank" class="inline-flex items-center font-medium text-sm text-white hover:text-accent">
+                            <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                            Code
+                        </a>
+                    ` : '<span></span>';
+
+                    article.innerHTML = `
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-slate-800 text-accent text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded border border-slate-700">
+                                <svg class="mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+                                Custom
+                            </span>
+                            <span class="text-sm text-secondary flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                ${project.stargazers_count || 0}
+                            </span>
+                        </div>
+                        <h2 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                            <a href="${project.html_url || '#'}" target="_blank" class="hover:text-accent">${project.name}</a>
+                        </h2>
+                        <p class="mb-4 font-light text-secondary line-clamp-3 flex-grow">
+                            ${project.description || "No description provided."}
+                        </p>
+                        
+                        ${tagsHtml}
+
+                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-800">
+                            ${codeBtn}
+                            ${demoBtn}
+                        </div>
+                    `;
+                    container.appendChild(article);
+                });
+            }
+        });
+    </script>
+
+
+</body>
+</html>
