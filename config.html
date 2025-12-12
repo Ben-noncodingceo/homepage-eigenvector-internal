@@ -45,6 +45,13 @@ layout: null
                 <h2 class="text-xl font-semibold text-white mb-4">Add / Edit Card</h2>
                 <form id="projectForm" class="space-y-4">
                     <input type="hidden" id="editIndex" value="-1">
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-secondary mb-1">Select Action / Project</label>
+                        <select id="projectSelector" class="w-full bg-dark border border-slate-700 rounded-lg p-2.5 text-white focus:ring-accent focus:border-accent">
+                            <option value="-1">+ Create New Project</option>
+                        </select>
+                    </div>
                     
                     <div>
                         <label class="block text-sm font-medium text-secondary mb-1">Project Name</label>
@@ -124,9 +131,22 @@ layout: null
         const form = document.getElementById('projectForm');
         const list = document.getElementById('projectsList');
         const editIndexInput = document.getElementById('editIndex');
+        const projectSelector = document.getElementById('projectSelector');
 
-        // Render List
+        // Render List & Selector
         function render() {
+            // Update Selector
+            projectSelector.innerHTML = '<option value="-1">+ Create New Project</option>';
+            projects.forEach((p, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `Edit: ${p.name || 'Untitled'}`;
+                projectSelector.appendChild(option);
+            });
+            // Sync selector value
+            projectSelector.value = editIndexInput.value;
+
+            // Render Right List (Keep as preview)
             list.innerHTML = '';
             if (projects.length === 0) {
                 list.innerHTML = '<p class="text-secondary text-center italic">No custom cards yet.</p>';
@@ -137,7 +157,7 @@ layout: null
                 const div = document.createElement('div');
                 div.className = 'bg-slate-800 p-4 rounded-lg border border-slate-700 flex justify-between items-start';
                 div.innerHTML = `
-                    <div>
+                    <div class="cursor-pointer flex-grow" onclick="selectProject(${index})">
                         <h3 class="font-bold text-white">${p.name}</h3>
                         <p class="text-sm text-secondary line-clamp-1">${p.description || ''}</p>
                         <div class="flex gap-2 mt-2">
@@ -145,9 +165,6 @@ layout: null
                         </div>
                     </div>
                     <div class="flex space-x-2 ml-4">
-                        <button onclick="editProject(${index})" class="text-accent hover:text-white">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                        </button>
                         <button onclick="deleteProject(${index})" class="text-red-400 hover:text-red-300">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                         </button>
@@ -156,6 +173,16 @@ layout: null
                 list.appendChild(div);
             });
         }
+
+        // Selector Change Event
+        projectSelector.addEventListener('change', (e) => {
+            const index = parseInt(e.target.value);
+            if (index === -1) {
+                resetForm();
+            } else {
+                fillForm(index);
+            }
+        });
 
         // Add / Update
         form.addEventListener('submit', (e) => {
@@ -174,16 +201,19 @@ layout: null
                 projects[index] = project;
             } else {
                 projects.push(project);
+                // Switch to edit mode for the new project immediately? Or stay in create mode?
+                // Let's reset to create mode to allow adding another one easily
             }
 
             save();
             render();
-            resetForm();
+            if (index === -1) resetForm(); // Clear only if we were adding new
         });
 
-        // Edit
-        window.editProject = (index) => {
+        // Fill Form Helper
+        function fillForm(index) {
             const p = projects[index];
+            if (!p) return;
             document.getElementById('name').value = p.name || '';
             document.getElementById('description').value = p.description || '';
             document.getElementById('tags').value = (p.tags || []).join(', ');
@@ -191,14 +221,31 @@ layout: null
             document.getElementById('demo_url').value = p.homepage || '';
             document.getElementById('stars').value = p.stargazers_count || 0;
             editIndexInput.value = index;
+            projectSelector.value = index;
+        }
+
+        // Edit (called from list click)
+        window.selectProject = (index) => {
+            fillForm(index);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
+        // Backwards compatibility for the old edit button if I missed removing it from render
+        window.editProject = window.selectProject; 
 
         // Delete
         window.deleteProject = (index) => {
             if(confirm('Are you sure?')) {
                 projects.splice(index, 1);
                 save();
+                
+                // If we deleted the currently edited project, reset form
+                if (parseInt(editIndexInput.value) === index) {
+                    resetForm();
+                } else if (parseInt(editIndexInput.value) > index) {
+                    // Adjust index if we deleted a project before the current one
+                    editIndexInput.value = parseInt(editIndexInput.value) - 1;
+                }
+                
                 render();
             }
         };
@@ -209,6 +256,7 @@ layout: null
         function resetForm() {
             form.reset();
             editIndexInput.value = -1;
+            projectSelector.value = -1;
         }
 
         // Save to LocalStorage
