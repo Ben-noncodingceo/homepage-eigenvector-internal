@@ -70,5 +70,13 @@
     "html_url": "https://github.com/Ben-noncodingceo/legal-auto-review",
     "homepage": "https://legal-auto-review.pages.dev/",
     "stargazers_count": 0
+  },
+  {
+    "name": "开普勒定律模拟演示",
+    "description": "开普勒定律模拟演示可以模拟地球、地球+月球、定制角动量和能量的行星 的开普勒定律模拟",
+    "tags": [],
+    "html_url": "https://github.com/Ben-noncodingceo/Kepler-law-sim",
+    "homepage": "https://kepler-law-sim.pages.dev/",
+    "stargazers_count": 0
   }
 ]
